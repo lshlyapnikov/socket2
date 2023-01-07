@@ -342,6 +342,7 @@ unsafe fn any_as_u8_slice<T: Sized>(p: &T, size: usize) -> &[u8] {
 mod tests {
     use super::*;
     use quickcheck::{self, Arbitrary};
+    use quickcheck_macros::quickcheck;
 
     impl Arbitrary for SockAddr {
         fn arbitrary(g: &mut quickcheck::Gen) -> Self {
@@ -500,17 +501,17 @@ mod tests {
 
     #[allow(clippy::eq_op)] // allow x == x
     #[quickcheck]
-    fn reflexive_eq(x: SockAddr) -> bool {
+    fn qc_reflexive_eq(x: SockAddr) -> bool {
         x == x
     }
 
     #[quickcheck]
-    fn symmetric_eq(x: SockAddr, y: SockAddr) -> bool {
+    fn qc_symmetric_eq(x: SockAddr, y: SockAddr) -> bool {
         (x == y) == (y == x)
     }
 
     #[quickcheck]
-    fn transitive_eq(x: SockAddr, y: SockAddr, z: SockAddr) -> bool {
+    fn qc_transitive_eq(x: SockAddr, y: SockAddr, z: SockAddr) -> bool {
         if x == y && y == z {
             x == z
         } else {
@@ -519,12 +520,12 @@ mod tests {
     }
 
     #[quickcheck]
-    fn consistent_eq(x: SockAddr, y: SockAddr) -> bool {
+    fn qc_consistent_eq(x: SockAddr, y: SockAddr) -> bool {
         (x == y) == (x == y)
     }
 
     #[quickcheck]
-    fn hash(x: SockAddr, y: SockAddr) -> bool {
+    fn qc_hash(x: SockAddr, y: SockAddr) -> bool {
         if x == y {
             calculate_hash(&x) == calculate_hash(&y)
         } else {
@@ -533,7 +534,7 @@ mod tests {
     }
 
     #[quickcheck]
-    fn consistent_hash(x: SockAddr) -> bool {
+    fn qc_consistent_hash(x: SockAddr) -> bool {
         calculate_hash(&x) == calculate_hash(&x)
     }
 
