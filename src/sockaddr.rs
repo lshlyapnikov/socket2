@@ -338,17 +338,16 @@ unsafe fn any_as_u8_slice<T: Sized>(p: &T, size: usize) -> &[u8] {
     ::std::slice::from_raw_parts((p as *const T) as *const u8, size)
 }
 
+impl quickcheck::Arbitrary for SockAddr {
+    fn arbitrary(g: &mut quickcheck::Gen) -> Self {
+        SockAddr::from(std::net::SocketAddr::arbitrary(g))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use quickcheck::{self, Arbitrary};
     use quickcheck_macros::quickcheck;
-
-    impl Arbitrary for SockAddr {
-        fn arbitrary(g: &mut quickcheck::Gen) -> Self {
-            SockAddr::from(std::net::SocketAddr::arbitrary(g))
-        }
-    }
 
     #[test]
     fn ipv4() {

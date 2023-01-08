@@ -49,6 +49,11 @@ features = [
 # Enable all API, even ones not available on all OSs.
 all = []
 
-[dev-dependencies]
+[dependencies]
+bencher = "0.1.5"
 quickcheck = "1.0.3"
 quickcheck_macros = "1.0.0"
+
+[[bench]]
+name = "sockaddr_bench"
+harness = false
